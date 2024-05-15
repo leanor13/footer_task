@@ -80,4 +80,3 @@ def	_prepare_printable_output(pages_list, total_pages):
 	
 	return " ".join(output)
 	
-	
