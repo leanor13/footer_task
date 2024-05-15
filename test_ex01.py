@@ -87,9 +87,9 @@ class TestFooter:
 	@pytest.mark.parametrize(
 		"current_page, total_pages, boundaries, around, error_message",
 		[
-			(10, 9, 1, 2, ERROR_MESSAGES["current_outside_range"]),
-			(10, 0, 1, 2, ERROR_MESSAGES["current_outside_range"]),
-			(0, 10, 1, 2, ERROR_MESSAGES["current_outside_range"]),
+			(10, 9, 1, 2, ERROR_MESSAGES["current_outside_range"].format(current_page = 10, total_pages = 9)),
+			(10, 0, 1, 2, ERROR_MESSAGES["current_outside_range"].format(current_page = 10, total_pages = 0)),
+			(0, 10, 1, 2, ERROR_MESSAGES["current_outside_range"].format(current_page = 0, total_pages = 10)),
    		]
 	)
 	def test_print_pages_outside_of_total(self, current_page, total_pages, boundaries, around, error_message):
@@ -105,7 +105,7 @@ class TestFooter:
 			(5, 10, 1, MAX_BOUNDARIES_AROUND + 1, ERROR_MESSAGES["boundaries_around_exceeded"]),
    		]
 	)
-	def test_print_pages_outside_of_total(self, current_page, total_pages, boundaries, around, error_message):
+	def test_print_pages_exceed_boundaries(self, current_page, total_pages, boundaries, around, error_message):
 		with pytest.raises(ValueError, match=error_message):
 			_validate_input(current_page, total_pages, boundaries, around)
 	
