@@ -110,6 +110,7 @@ class TestFooter:
 		[
 			(0, 0, -1, 0, "Validation error: " + ERROR_MESSAGES["negative_value"]),
 			(10, 0, 1, 2, "Validation error: " + ERROR_MESSAGES["current_outside_range"].format(current_page=10, total_pages=0)),
+			(5, 10, MAX_BOUNDARIES_AROUND + 1, 2, "Validation error: " + ERROR_MESSAGES["boundaries_around_exceeded"]),
 			(5, MAX_TOTAL_PAGES + 1, 1, 2, "Validation error: " + ERROR_MESSAGES["maximum_total_exceeded"]),
 			(5.5, 10, 6, 2, "Validation error: " + ERROR_MESSAGES["not_int"]),
 		]
