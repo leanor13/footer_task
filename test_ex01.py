@@ -2,6 +2,7 @@ import pytest
 from ex01 import print_pages, _validate_input, ERROR_MESSAGES, MAX_BOUNDARIES_AROUND, MAX_TOTAL_PAGES
 
 class TestFooter:
+	# in the following test we check both result on print and return, in other tests checking only return is enough
 	@pytest.mark.happy_flow
 	@pytest.mark.parametrize(
 		"current_page, total_pages, boundaries, around, expected_output",
@@ -16,10 +17,13 @@ class TestFooter:
 		]
 	)
 	def test_print_pages_default_tests(self, current_page, total_pages, boundaries, around, expected_output, capsys):
-		print_pages(current_page, total_pages, boundaries, around)
+
+		actual_output = print_pages(current_page, total_pages, boundaries, around)
 		captured = capsys.readouterr()
-		actual_output = captured.out.strip()
+		printed_actual_output = captured.out.strip()
+
 		assert actual_output == expected_output
+		assert printed_actual_output == expected_output
 
 	@pytest.mark.happy_flow
 	@pytest.mark.parametrize(
@@ -37,6 +41,7 @@ class TestFooter:
 		]
 	)
 	def test_print_pages_corner_cases(self, current_page, total_pages, boundaries, around, expected_output):
+
 		assert print_pages(current_page, total_pages, boundaries, around) == expected_output
 
 	@pytest.mark.parametrize(
@@ -48,6 +53,7 @@ class TestFooter:
 		]
 	)
 	def test_print_pages_border_values(self, current_page, total_pages, boundaries, around, expected_output):
+
 		assert print_pages(current_page, total_pages, boundaries, around) == expected_output
 
 	@pytest.mark.error_handling
@@ -61,6 +67,7 @@ class TestFooter:
 		]
 	)
 	def test_print_pages_not_int_values(self, current_page, total_pages, boundaries, around, error_message):
+
 		with pytest.raises(ValueError, match=error_message):
 			_validate_input(current_page, total_pages, boundaries, around)
 
@@ -75,6 +82,7 @@ class TestFooter:
 		]
 	)
 	def test_print_pages_negative_values(self, current_page, total_pages, boundaries, around, error_message):
+
 		with pytest.raises(ValueError, match=error_message):
 			_validate_input(current_page, total_pages, boundaries, around)
 	
@@ -88,6 +96,7 @@ class TestFooter:
 		]
 	)
 	def test_print_pages_outside_of_total(self, current_page, total_pages, boundaries, around, error_message):
+
 		with pytest.raises(ValueError, match=error_message):
 			_validate_input(current_page, total_pages, boundaries, around)
 
@@ -101,9 +110,11 @@ class TestFooter:
 		]
 	)
 	def test_print_pages_exceed_boundaries(self, current_page, total_pages, boundaries, around, error_message):
+
 		with pytest.raises(ValueError, match=error_message):
 			_validate_input(current_page, total_pages, boundaries, around)
 	
+	# we test different cases for validation in tests above, this test is just to validate final exception output
 	@pytest.mark.error_handling
 	@pytest.mark.parametrize(
 		"current_page, total_pages, boundaries, around, error_message",
@@ -116,6 +127,8 @@ class TestFooter:
 		]
 	)
 	def test_print_pages_validation_errors(self, current_page, total_pages, boundaries, around, error_message, capsys):
+
 		print_pages(current_page, total_pages, boundaries, around)
 		captured = capsys.readouterr()
+
 		assert captured.out.strip() == error_message
